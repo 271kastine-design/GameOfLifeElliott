@@ -21,41 +21,37 @@ public class GameOfLife {
             throw new IllegalArgumentException("Rows and columns must be positive.");
         }
 
-        society = new boolean[rows][cols];
+        
     }
 
     /** Returns the number of rows in the society. */
     public int numberOfRows() {
-        return society.length;
+        return -1;
     }
 
     /** Returns the number of columns in the society. */
     public int numberOfColumns() {
-        return society[0].length;
+        return -1;
     }
 
     /** Makes the location at row, col alive. */
     public void growCellAt(int row, int col) {
-        society[row][col] = true;
+        
     }
 
     /** Makes the location at row, col dead. */
     public void killCellAt(int row, int col) {
-        society[row][col] = false;
+        
     }
 
     /** Returns true if the location contains a live cell. */
     public boolean cellAt(int row, int col) {
-        return society[row][col];
+        return false;
     }
 
     /** Makes every location in the society dead. */
     public void clear() {
-        for (int row = 0; row < society.length; row++) {
-            for (int col = 0; col < society[row].length; col++) {
-                society[row][col] = false;
-            }
-        }
+        
     }
 
     /**
