@@ -17,6 +17,7 @@ public class GameOfLife {
      * Creates an empty society with the requested number of rows and columns.
      */
     public GameOfLife(int rows, int cols) {
+        society = new boolean[rows][cols];
         if (rows <= 0 || cols <= 0) {
             throw new IllegalArgumentException("Rows and columns must be positive.");
         }
@@ -26,32 +27,45 @@ public class GameOfLife {
 
     /** Returns the number of rows in the society. */
     public int numberOfRows() {
-        return -1;
+        return society.length;
     }
 
     /** Returns the number of columns in the society. */
     public int numberOfColumns() {
-        return -1;
+        return society[0].length;
     }
 
     /** Makes the location at row, col alive. */
     public void growCellAt(int row, int col) {
-        
+        if (row < 0 || row >= society.length || col < 0 || col >= society[0].length) {
+            throw new IllegalArgumentException("Row or column is out of bounds.");
+        }
+        society[row][col] = true;
     }
 
     /** Makes the location at row, col dead. */
     public void killCellAt(int row, int col) {
-        
+        if(row < 0 || row >= society.length || col < 0 || col >= society[0].length) {
+            throw new IllegalArgumentException("Row or column is out of bounds.");
+        }
+        society[row][col] = false;
     }
 
     /** Returns true if the location contains a live cell. */
     public boolean cellAt(int row, int col) {
-        return false;
+        if (row < 0 || row >= society.length || col < 0 || col >= society[0].length) {
+            throw new IllegalArgumentException("Row or column is out of bounds.");
+        }
+        return society[row][col];
     }
 
     /** Makes every location in the society dead. */
     public void clear() {
-        
+        for (int i = 0; i < society.length; i++) {
+            for (int j = 0; j < society[0].length; j++) {
+                society[i][j] = false;
+            }
+        }
     }
 
     /**
@@ -66,8 +80,35 @@ public class GameOfLife {
         // TODO: Traverse the 3 x 3 neighborhood around row, col.
         //       Skip row, col itself.
         //       Check bounds before reading society[r][c].
-
-        return 0;
+        int count = 0;
+        if(row < 0 || row >= society.length || col < 0 || col >= society[0].length) {
+            throw new IllegalArgumentException("Row or column is out of bounds.");
+        }
+        if(row - 1 >= 0 && col - 1 >= 0 && society[row - 1][col - 1]) {
+            count++;
+        }
+        if(row - 1 >= 0 && society[row - 1][col]) {
+            count++;
+        }
+        if(row - 1 >= 0 && col + 1 < society[0].length && society[row - 1][col + 1]) {
+            count++;
+        }
+        if(col - 1 >= 0 && society[row][col - 1]) {
+            count++;
+        }
+        if(col + 1 < society[0].length && society[row][col + 1]) {
+            count++;
+        }
+        if(row + 1 < society.length && col - 1 >= 0 && society[row + 1][col - 1]) {
+            count++;
+        }
+        if(row + 1 < society.length && society[row + 1][col]) {
+            count++;
+        }
+        if(row + 1 < society.length && col + 1 < society[0].length && society[row + 1][col + 1]) {
+            count++;
+        }
+        return count;
     }
 
     /**
@@ -81,6 +122,22 @@ public class GameOfLife {
      *
      * TODO: Complete this method.
      */
+    public int neighborCount(int row, int col) {
+        int neighbors = 0;
+        for(int i = row - 1; i <= row + 1; i++) {
+            for(int j = col - 1; j <= col + 1; j++) {
+                if(i == row && j == col) {
+                    continue; // Skip the cell itself
+                }
+                if(i >= 0 && i < society.length && j >= 0 && j < society[0].length) {
+                    if(society[i][j]) {
+                        neighbors++;
+                    }
+                }
+            }
+        }
+        return neighbors;
+    }
     public void update() {
         // TODO: Create a SECOND 2D boolean array for the next generation.
         //
@@ -88,6 +145,12 @@ public class GameOfLife {
         // Do not change society while you are still using it to calculate
         // neighbors. Every cell in the new generation must be based on the
         // same old generation.
+        boolean[][] nextGeneration = new boolean[society.length][society[0].length]; 
+        for(int i = 0; i < society.length; i++){
+            for(int j = 0; j < society[0].length; j++){
+                int neighbors = neighborCount(i,j); 
+            }
+        }
     }
 
     /**
